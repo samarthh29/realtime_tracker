@@ -1,7 +1,6 @@
 const express = require("express");
 const app = express();
 const path = require("path");
-const ejs = require('ejs');
 
 const http = require("http");
 
@@ -15,7 +14,12 @@ app.set("view engine", "ejs");
 app.set(express.static(path.join(__dirname, "public")));
 
 io.on("connection", function (socket) {
-  console.log("connected");
+  socket.on("send-location", function (data) {
+    io.emit("receive-location", { id: socket.id, ...data });
+  });
+  socket.on("disconnect", function () {
+    io.emit("user-disconnected", socket.id);
+  });
 });
 
 app.get("/", function (req, res) {

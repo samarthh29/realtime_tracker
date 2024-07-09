@@ -18,7 +18,7 @@ io.on("connection", function (socket) {
 });
 
 app.get("/", function (req, res) {
-  res.send("hey");
+  res.render("index");
 });
 
 app.listen(3000);
